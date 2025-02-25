@@ -1,0 +1,17 @@
+# 游戏网站监控配置
+
+# 监控的网站列表
+websites:
+  - name: CrazyGames
+    url: https://www.crazygames.com/
+    sitemap: https://www.crazygames.com/en/sitemap
+  - name: NealFun
+    url: https://neal.fun/
+    sitemap: https://neal.fun/sitemap.xml
+
+# 文件保存配置
+storage:
+  # sitemap文件保存目录
+  sitemap_dir: sitemaps
+  # 新增页面日志保存目录
+  log_dir: logs
