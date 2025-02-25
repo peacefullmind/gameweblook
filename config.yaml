@@ -8,6 +8,15 @@ websites:
   - name: NealFun
     url: https://neal.fun/
     sitemap: https://neal.fun/sitemap.xml
+  - name: gamedistribution
+    url: https://gamedistribution.com/games/
+    sitemap: https://gamedistribution.com/sitemap-games-1.xml
+  - name: miniplay
+    url: https://www.miniplay.com/most-played
+    sitemap: https://www.miniplay.com/sitemap-games-3.xml
+  - name: GameFlare
+    url: https://www.gameflare.com/
+    rss: https://www.gameflare.com/rss/
 
 # 文件保存配置
 storage:
@@ -15,3 +24,5 @@ storage:
   sitemap_dir: sitemaps
   # 新增页面日志保存目录
   log_dir: logs
+  # RSS文件保存目录
+  rss_dir: rss
