@@ -149,6 +149,63 @@ def process_rss(website, rss_dir, log_dir):
         save_new_urls(name, new_urls, log_dir)
         print(f"首次运行，保存了 {len(new_urls)} 个页面")
 
+def merge_logs(log_dir):
+    """合并本次运行新生成的日志文件到一个汇总文件中"""
+    # 获取当前时间作为基准时间
+    current_time = datetime.now()
+    
+    # 获取所有日志文件，只选择最近1分钟内创建的文件（本次运行生成的）
+    log_files = []
+    for file in Path(log_dir).glob('*.txt'):
+        # 跳过之前的汇总文件
+        if file.name.startswith('summary_'):
+            continue
+        # 获取文件的创建时间
+        file_time = datetime.fromtimestamp(file.stat().st_mtime)
+        # 如果文件是最近1分钟内创建的，则添加到列表中
+        if (current_time - file_time).total_seconds() <= 60:
+            log_files.append(file)
+    
+    if not log_files:
+        print("本次运行没有新增日志文件，无需汇总")
+        return
+
+    # 创建汇总文件
+    timestamp = current_time.strftime('%Y-%m-%d_%H-%M-%S')
+    summary_path = os.path.join(log_dir, f"summary_{timestamp}.txt")
+    
+    with open(summary_path, 'w', encoding='utf-8') as summary_file:
+        summary_file.write(f"汇总时间: {timestamp}\n")
+        summary_file.write(f"本次新增日志文件数: {len(log_files)}\n\n")
+        
+        # 按网站名称分组处理日志
+        website_logs = {}
+        for log_file in log_files:
+            # 从文件名中提取网站名称
+            website_name = log_file.stem.split('_')[0]
+            
+            if website_name not in website_logs:
+                website_logs[website_name] = []
+            
+            with open(log_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                website_logs[website_name].append({
+                    'time': log_file.stem.split('_', 1)[1],
+                    'content': content
+                })
+        
+        # 按网站名称输出汇总内容
+        for website_name, logs in sorted(website_logs.items()):
+            summary_file.write(f"=== {website_name} ===\n\n")
+            # 按时间顺序输出每个日志
+            for log in sorted(logs, key=lambda x: x['time']):
+                summary_file.write(f"--- {log['time']} ---\n")
+                summary_file.write(log['content'])
+                summary_file.write("\n")
+            summary_file.write("\n")
+    
+    print(f"已生成本次新增日志的汇总文件: {summary_path}")
+
 def main():
     # 加载配置
     config = load_config()
@@ -168,6 +225,10 @@ def main():
             process_sitemap(website, sitemap_dir, log_dir)
         elif 'rss' in website:
             process_rss(website, rss_dir, log_dir)
+    
+    # 合并所有日志文件
+    merge_logs(log_dir)
+    print("\n已生成日志汇总文件")
 
 if __name__ == '__main__':
     main()

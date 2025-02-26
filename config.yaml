@@ -17,6 +17,12 @@ websites:
   - name: GameFlare
     url: https://www.gameflare.com/
     rss: https://www.gameflare.com/rss/
+  - name: itch.io
+    url: https://itch.io/
+    sitemap: https://itch.io/sitemaps/games_28.xml
+  - name: poki
+    url: https://poki.com/en/online
+    sitemap: https://poki.com/en/sitemaps/games.xml
 
 # 文件保存配置
 storage:
