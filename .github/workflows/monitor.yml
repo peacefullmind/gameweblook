@@ -27,5 +27,5 @@ jobs:
     
     - name: Create Issues for new pages
       env:
-        GITHUB_TOKEN: ${{ secrets.LOG_TOKEN }}
+        LOG_TOKEN: ${{ secrets.LOG_TOKEN }}
       run: python create_issues.py
