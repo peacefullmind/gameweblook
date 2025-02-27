@@ -2,7 +2,7 @@ name: Game Website Monitor
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # 每10分钟运行一次
+    - cron: '0 10,22 * * *'  # 每天10点和22点运行
   workflow_dispatch:  # 允许手动触发
 
 jobs:
