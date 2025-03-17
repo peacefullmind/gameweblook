@@ -23,6 +23,9 @@ websites:
   - name: poki
     url: https://poki.com/en/online
     sitemap: https://poki.com/en/sitemaps/games.xml
+  - name: 1games
+    url: https://1games.io/
+    sitemap: https://1games.io/sitemap.xml
 
 # 文件保存配置
 storage:
